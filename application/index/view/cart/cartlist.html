@@ -1,0 +1,195 @@
+{include file="public/header"}
+<!--main start-->
+<div class="gw_one">
+	<ul>
+    	<li class="sel">
+        	<em>1</em>
+            <span><i>购物车</i><br />Shopping Cart</span>
+        </li>
+        <li>
+        	<em>2</em>
+            <span><i>填写核对订单</i><br />Delivery & Payment</span>
+        </li>
+        <li class="li">
+        	<em>3</em>
+            <span><i>订单支付成功</i><br />Complete Order</span>
+        </li>
+    </ul>
+</div>
+<div class="main">
+	<div class="gw_two">购物车列表</div>
+  <table class="gw_three" cellpadding="0" cellspacing="0">
+    	<tr>
+        	<th width="92" height="53"><label><input type="checkbox" class="ck_all" /> 全选</label></th>
+            <th width="574">商品名称</th>
+            <th width="108">数量</th>
+            <th width="254">小计</th>
+            <th width="150">操作</th>
+        </tr>
+        {volist name="list" id="cv"}
+        <tr>
+        	<td><input type="checkbox" class="ck" name="id[]" value="{$cv.id}"/></td>
+            <td>
+            	<a href="{:url('Product/detail',['id'=>$cv.pid])}" class="img"><img src="{$cv.thumb}" /></a>
+                <div class="left">
+                	<a href="{:url('Product/detail',['id'=>$cv.pid])}">{$cv.name}</a><br />
+                    <!-- 颜色 : 浅棕色 -->
+                </div>
+            </td>
+            <td>
+            	<input type="button" class="btn_jian num_jian" value="-" />
+                <input type="text" class="txt_num" value="{$cv.num}" />
+                <input type="button" class="btn_jia num_jia" value="+" />
+            </td>
+            <td class="price" val="{$cv.price}">¥ {$cv.total}</td>
+            <td class="cz"><input type="button" class="btn_del" /></td>
+        </tr>
+       {/volist}
+    </table>
+</div>
+<div class="gw_four">
+	<div class="main">
+    	<div class="left">
+        	<label><input type="checkbox" class="ck_all" /> 全选</label>|<a href="javascript:void(0)" class="del">删除</a>
+            <br /><br /><br />
+            <input type="button" class="btn" value="上一步" />
+        </div>
+        <div class="right">
+        	<p>商品数量总计 : <b class="b_num">0</b>件</p>
+            <p>商品金额总计（不含运费）:<span class="span_total">¥ 0</span></p>
+            <input type="button" class="btn btn_next" value="下一步" />
+        </div>
+    </div>
+</div>
+<!--main end-->
+<script type="text/javascript">
+	$(function(){
+		//数量加
+		$(".num_jia").each(function(a){
+		
+			$(this).click(function(){
+				var i=parseInt($(".txt_num").eq(a).val());
+				i=i+1;
+				$(".txt_num").eq(a).val(i);
+                //计算小计
+                
+                var price = $(this).parent().next().attr('val')
+                $(this).parent().next().text('￥ '+price*i)
+                total_price()
+			})
+		})
+		//数量减
+		$(".num_jian").each(function(a){
+			$(this).click(function(){
+				var i=parseInt($(".txt_num").eq(a).val());
+				if(i>1)
+				{
+					i=i-1;
+					$(".txt_num").eq(a).val(i);
+				}
+                //计算小计
+				var price = $(this).parent().next().attr('val')
+                $(this).parent().next().text('￥ '+price*i)
+                total_price()
+			})
+		})
+
+        $('.ck').click(function(){
+            var ck_ll_bool = $('.ck_all').is(":checked")
+            if(ck_ll_bool) $('.ck_all').prop('checked',false)
+            total_price()
+        })
+
+        $('.ck_all').click(function(){
+            var bool = $(this).is(":checked")
+            if(bool){
+                $('.ck_all').prop('checked',true)
+                $('.ck').prop('checked',true)
+                total_price()
+            }else{
+                $('.ck_all').prop('checked',false)
+                $('.ck').prop('checked',false)
+                $('.b_num').text(0)
+                $('.span_total').text(0)
+            }
+            
+        })
+
+        //单个删除
+        $('.btn_del').each(function(a){
+            $(this).click(function(){
+                var id = $(this).parent().parent().find('.ck').val()
+                var obj = $(this)
+                $.post("{:url('onedel')}",{id:id},function(data){
+                    if(data.info){
+                        obj.parent().parent().remove()
+                    }
+                    total_price()
+                })
+            })
+        })
+
+        //批量删除
+        $('.del').click(function(){
+            var allid = []
+            $('.ck:checked').each(function(){
+                allid.push($(this).val())
+            })
+            if(allid==''){
+                alert('至少选择一个商品')
+            }else{
+                $.post("{:url('alldel')}",{id:allid},function(data){
+                    if(data.info){
+                        $('.ck:checked').each(function(){
+                            $(this).parent().parent().remove()
+                        })
+                    }
+                    $('.ck_all').prop('checked',false)
+                    total_price()
+                })
+            }
+        })
+
+        //下一步，检测数据，更改购物车选中数据
+        $('.btn_next').click(function(){
+            var data = []
+            $('.ck:checked').each(function(){
+                var select = []
+                select.push($(this).val())
+                select.push($(this).parent().parent().find('.txt_num').val())
+                data.push(select)
+            })
+            //[6,6]   [[6,6],[7,9]]
+            if(data==''){
+                alert('至少选择一个商品')
+            }else{
+                $.post("{:url('check')}",{data:data},function(data){
+                    if(data.info){
+                        location="{:url('confirm')}"
+                    }
+                })
+            }
+        })
+	})
+    function total_price(){
+        var num = 0
+        var total = 0
+        $('.ck').each(function(){
+            
+            var bool = $(this).is(":checked")
+            if(bool){
+                //数量
+                var cnum = parseInt($(this).parent().parent().find('.txt_num').val())
+                num = num+cnum
+
+                //价格
+                var cprice = $(this).parent().parent().find('.price').text()
+                cprice = parseFloat(cprice.substr(2))
+                total = total+cprice
+            }
+        })
+        $('.b_num').text(num)
+        $('.span_total').text(total)
+    }
+</script>
+{include file="public/footer"}

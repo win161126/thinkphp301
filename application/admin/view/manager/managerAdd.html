@@ -1,0 +1,85 @@
+
+		<div id="main-content"> <!-- Main Content Section with everything -->
+			
+			
+			
+			
+			
+			<div class="content-box"><!-- Start Content Box -->
+				
+				<div class="content-box-header">
+					
+					<h3>Content box</h3>
+					
+					
+					<div class="clear"></div>
+					
+				</div> <!-- End .content-box-header -->
+				
+				<div class="content-box-content">
+					
+					
+					
+					<div class="tab-content default-tab" id="tab2">
+					
+						<form action="" method="post">
+							
+							<fieldset> <!-- Set class to "column-left" or "column-right" on fieldsets to divide the form into columns -->
+								<p>
+									<label>角色</label>
+									<select name="rid" class="small-input">
+										<option value="0">--请选择角色--</option>
+										{volist name="list" id="v"}
+										<option value="{$v.id}">{$v.name}</option>
+										{/volist}
+									</select> 
+								</p>
+								<p>
+									<label>账号</label>
+										<input class="text-input small-input" type="text" id="small-input" name="uname" /> 
+								</p>
+								<p>
+									<label>密码</label>
+										<input class="text-input small-input" type="password" id="small-input" name="pwd" /> 
+								</p>
+								<p>
+									<label>确认密码</label>
+										<input class="text-input small-input" type="password" id="small-input" name="pwd_confirm" /> 
+								</p>
+								
+								
+								<p>
+									<input class="button" type="submit" value="Submit" />
+								</p>
+								
+							</fieldset>
+							
+							<div class="clear"></div><!-- End .clear -->
+							
+						</form>
+						
+					</div> <!-- End #tab2 -->        
+					
+				</div> <!-- End .content-box-content -->
+				
+			</div> <!-- End .content-box -->
+			
+			
+			
+			
+			
+			
+			
+			<div id="footer">
+				<small> <!-- Remove this notice or replace it with whatever you want -->
+						&#169; Copyright 2009 Your Company | Powered by <a href="http://themeforest.net/item/simpla-admin-flexible-user-friendly-admin-skin/46073">Simpla Admin</a> | <a href="#">Top</a>
+				</small>
+			</div><!-- End #footer -->
+			
+		</div> <!-- End #main-content -->
+		
+	</div></body>
+  
+
+<!-- Download From www.exet.tk-->
+</html>

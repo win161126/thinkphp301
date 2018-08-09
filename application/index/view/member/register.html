@@ -1,0 +1,119 @@
+{include file="public/header"}
+
+<!--main start-->
+<div class="dl_main">
+	<div class="main">
+    	<div class="zc_bai">
+        	<div class="zc_one">注册COURANT-JET</div>
+            <div class="zc_two">
+            	<span>邮箱注册</span>
+                <span class="sel">短信注册</span>
+            </div>
+            <ul class="zc_three">
+            	<li><input type="text" name="phone" class="txt txt_tell" placeholder="请输入手机号" /></li>
+                <!-- <li><input type="text" class="txt txt_yzm" placeholder="请输入验证码" />
+                	<input type="button" class="btn_yzm" value="获取验证码" />
+                </li> -->
+                <li><input type="password" class="txt txt_pwd pwd" placeholder="请输入密码" name="upwd"/></li>
+                <li><input type="password" class="txt txt_pwd pwd2" placeholder="请再次输入密码" name="upwd_confirm"/></li>
+                <li><input type="button" class="btn btn_zc" value="注 册" /></li>
+                <li><a href="#" class="a">已有账号？立即登录</a></li>
+            </ul>
+        </div>    
+    </div>
+</div>
+<script type="text/javascript" src="js/layer/layer.js"></script>
+<script type="text/javascript">
+	$(function(){
+		//手机号码
+		$(".txt_tell").blur(function(){
+			if ($(".txt_tell").val() == "") { 
+				alert('手机号码不能为空');
+			}
+			else if (!$(".txt_tell").val().match(/^1([23578])\d{9}$/)) { 
+				alert('手机号码格式不正确');
+			} 
+		})
+		//密码
+		$(".pwd").blur(function(){
+			if ($(".pwd").val() == "") { 
+				alert('密码不能为空');
+			}
+		})
+		$(".pwd2").blur(function(){
+			if ($(".pwd2").val() == "") 
+				alert('再次输入密码不能为空');
+			else if($(".pwd2").val()!=$(".pwd").val())
+				alert('两次输入的密码不一致');
+			
+		})
+		$(".btn_zc").click(function(){
+			if ($(".txt_tell").val() == "") {
+				alert('手机号码不能为空');
+				return false;
+			}
+			else if (!$(".txt_tell").val().match(/^1([23578])\d{9}$/)) {
+				alert('手机号码格式不正确');
+				return false;
+			}
+			else if($(".txt_yzm").val() == "") {
+				alert('验证码不能为空');
+				return false;
+			}
+			else if ($(".pwd").val() == "") { 
+				alert('密码不能为空');
+				return false;
+			}
+			else if ($(".pwd2").val() == "") {
+				alert('再次输入密码不能为空');
+				return false;
+			}
+			else if($(".pwd2").val()!=$(".pwd").val()){
+				alert('两次输入的密码不一致');
+				return false;
+			}
+
+            var uname = $(".txt_tell").val()
+            var upwd = $(".pwd").val()
+            var upwd_confirm = $(".pwd2").val()
+            $.post("{:url('register')}",{uname:uname,upwd:upwd,upwd_confirm:upwd_confirm},function(data){
+                if(data.info){
+                    alert(data.msg)
+                    location="{:url('login')}"
+                }else{
+                    alert(data.msg)
+                }
+            })
+		})
+		
+		//获取验证码 倒计时
+		var timer;
+		var i;
+		function jishi(){
+			i=i-1;
+			if(i>=1)
+				$(".btn_yzm").val(i+"秒后重新获取");
+			else{
+				$(".btn_yzm").val("免费获取手机验证码");
+				$(".btn_yzm").css("background","#F96F41");
+				$(".btn_yzm").attr("disabled",false);
+				clearInterval(timer);
+			}
+		}
+		$(".btn_yzm").click(function(){
+			if($(".txt_tell").val()=="")
+				layer.msg('手机号码不能为空，请重新输入',{time: 2000},function(){$(".txt_tell").focus();});
+			else if(!$(".txt_tell").val().match(/^1([23578])\d{9}$/))
+				layer.msg('手机号码格式不正确，请重新输入',{time: 2000},function(){$(".txt_tell").focus();});
+			else{
+				$(".btn_yzm").val("60秒后重新获取");
+				$(".btn_yzm").css("background","#CCC");
+				$(".btn_yzm").attr("disabled","disabled");
+				timer=setInterval(jishi, 1000);
+				i=60;
+			}
+		})
+	})
+</script>
+<!--main end-->
+{include file="public/footer"}

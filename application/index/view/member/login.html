@@ -1,0 +1,59 @@
+
+{include file="public/header"}
+<!--main start-->
+<div class="dl_main">
+	<div class="main">
+    	<div class="zc_bai">
+        	<div class="zc_one dl_one">登录COURANT-JET</div>
+            <ul class="zc_three dl_two">
+            	<li><input type="text" class="txt txt_name" name="uname" placeholder="请输入用户名" /></li>
+                <li><input type="password" class="txt txt_pwd" name="upwd" placeholder="请输入密码" /></li>
+                <li><input type="button" class="btn btn_zc" value="登 录" /></li>
+                <li><a href="#" class="aa">没有账号？立即注册</a>
+                	<a href="#" class="a">忘记密码</a>
+                </li>
+            </ul>
+        </div>    
+    </div>
+</div>
+<script type="text/javascript" src="js/layer/layer.js"></script>
+<script type="text/javascript">
+	$(function(){
+		//手机号码
+		$(".txt_name").blur(function(){
+			if ($(".txt_name").val() == "") { 
+				alert('用户名不能为空');
+			}
+		})
+		//密码
+		$(".txt_pwd").blur(function(){
+			if ($(".txt_pwd").val() == "") { 
+				alert('密码不能为空');
+			}
+		})
+		$(".btn_zc").click(function(){
+			if ($(".txt_name").val() == "") {
+				alert('用户名不能为空');
+				return false;
+			}
+			else if ($(".txt_pwd").val() == "") { 
+				alert('密码不能为空');
+				return false;
+			}
+            $.post("{:url('login')}",{uname:$(".txt_name").val(),upwd:$(".txt_pwd").val()},function(data){
+               if(data.info){
+                alert(data.msg)
+                location="{:url('index')}"
+               }else{
+                alert(data.msg)
+               }
+            })
+
+
+		})
+		
+		
+	})
+</script>
+<!--main end-->
+{include file="public/footer"}

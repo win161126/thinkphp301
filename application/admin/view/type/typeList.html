@@ -1,0 +1,99 @@
+
+		<div id="main-content"> <!-- Main Content Section with everything -->
+			
+			
+			
+			
+			
+			<div class="content-box"><!-- Start Content Box -->
+				
+				<div class="content-box-header">
+					
+					<h3><a href="{:url('typeAdd')}">添加类型</a></h3>
+					
+					
+					
+					<div class="clear"></div>
+					
+				</div> <!-- End .content-box-header -->
+				
+				<div class="content-box-content">
+					
+					<div class="tab-content default-tab" id="tab1"> <!-- This is the target div. id must match the href of this div's tab -->
+						
+						
+						<table>
+							
+							<thead>
+								<tr>
+								   <th><input class="check-all" type="checkbox" /></th>
+								   <th>类型名称</th>
+								   <th>属性</th>
+								   <th>操作</th>
+								</tr>
+								
+							</thead>
+						 
+							<tfoot>
+								<tr>
+									<td colspan="6">
+										
+										
+										<!-- <div class="pagination"> -->
+											{$list->render()}
+											<!-- <a href="#" title="First Page">&laquo; First</a><a href="#" title="Previous Page">&laquo; Previous</a>
+											<a href="#" class="number" title="1">1</a>
+											<a href="#" class="number" title="2">2</a>
+											<a href="#" class="number current" title="3">3</a>
+											<a href="#" class="number" title="4">4</a>
+											<a href="#" title="Next Page">Next &raquo;</a><a href="#" title="Last Page">Last &raquo;</a> -->
+										<!-- </div> --> <!-- End .pagination -->
+										<div class="clear"></div>
+									</td>
+								</tr>
+							</tfoot>
+						 
+							<tbody>
+							{volist name="list" id="v"}
+								<tr>
+									<td><input type="checkbox" /></td>
+									<td>{$v.name}</td>
+									<td><a href="{:url('Attribute/attrList',['typeid'=>$v.id])}">属性列表</a></td>
+									<td>
+										<!-- Icons -->
+										 <a href="{:url('Type/typeUpdate',['id'=>$v.id])}" title="Edit"><img src="__PUBLIC__images/icons/pencil.png" alt="Edit" /></a>
+										 <a href="{:url('Type/typeDelete',['id'=>$v['id']])}" title="Delete"><img src="__PUBLIC__images/icons/cross.png" alt="Delete" /></a> 
+										 
+									</td>
+								</tr>
+							{/volist}	
+							</tbody>
+							
+						</table>
+						
+					</div> <!-- End #tab1 -->
+					    
+					
+				</div> <!-- End .content-box-content -->
+				
+			</div> <!-- End .content-box -->
+			
+			
+			
+			
+			
+			
+			
+			<div id="footer">
+				<small> <!-- Remove this notice or replace it with whatever you want -->
+						&#169; Copyright 2009 Your Company | Powered by <a href="http://themeforest.net/item/simpla-admin-flexible-user-friendly-admin-skin/46073">Simpla Admin</a> | <a href="#">Top</a>
+				</small>
+			</div><!-- End #footer -->
+			
+		</div> <!-- End #main-content -->
+		
+	</div></body>
+  
+
+<!-- Download From www.exet.tk-->
+</html>

@@ -1,0 +1,233 @@
+
+		<div id="main-content"> <!-- Main Content Section with everything -->
+			
+			
+			
+			
+			
+			<div class="content-box"><!-- Start Content Box -->
+				
+				<div class="content-box-header">
+					
+					<h3>Content box</h3>
+					
+					
+					<div class="clear"></div>
+					
+				</div> <!-- End .content-box-header -->
+				
+				<div class="content-box-content">
+					
+					
+					
+					<div class="tab-content default-tab" id="tab2">
+					
+						<form action="" method="post">
+							
+							<fieldset> <!-- Set class to "column-left" or "column-right" on fieldsets to divide the form into columns -->
+								
+								<p>
+									<label>商品名称</label>
+										<input class="text-input small-input" type="text" id="small-input" name="name" /> 
+								</p>
+								<p>
+									<label>商品简介</label>
+										<input class="text-input small-input" type="text" id="small-input" name="introduction" /> 
+								</p>
+								<p>
+									<label>分类</label>
+									<select name="cid" class="small-input">
+										<option value="0">--请选择分类--</option>
+										{volist name="cateList" id="cv"}
+										<option value="{$cv.id}">{$cv.name}</option>
+										{/volist}
+									</select> 
+								</p>
+								<p>
+									<label>品牌</label>
+									<select name="bid" class="small-input">
+										<option value="0">--请选择品牌--</option>
+										{volist name="brandList" id="bv"}
+										<option value="{$bv.id}">{$bv.name}</option>
+										{/volist}
+									</select> 
+								</p>
+								
+								<p>
+									<label>商品货号</label>
+										<input class="text-input small-input" type="text" id="small-input" name="number" /> 
+								</p>
+								<p>
+									<label>市场价</label>
+										<input class="text-input small-input" type="text" id="small-input" name="market" /> 
+								</p>
+								<p>
+									<label>销售价</label>
+										<input class="text-input small-input" type="text" id="small-input" name="price" /> 
+								</p>
+								<p>
+									<label>库存</label>
+										<input class="text-input small-input" type="text" id="small-input" name="num"/> 
+								</p>
+								<p>
+									<label>图片主图</label>
+										<input class="text-input small-input" type="file" id="picture" multiple name="picture[]" value=""/> 
+								</p>
+								<p>
+									<label>详情</label>
+										<textarea name="content" style="width:100%;height:200px;visibility:hidden;"></textarea>
+								</p>
+								<p>
+									<label>属性</label>
+									<select name="tid" id="type" class="small-input">
+										<option value="0">--请选择类型--</option>
+										{volist name="typelist" id="v"}
+										<option value="{$v.id}">{$v.name}</option>
+										{/volist}
+									</select>
+									<br />
+									<prev>
+									</prev>
+									<table border="1" cellpadding="0" cellspacing="0" width="700" id="attribute_table" >
+								        <tr>
+								            <th>颜色</th>
+								            <th>内存</th>
+								            <th>价格</th>
+								            <th>库存</th>
+								            <th>编号</th>
+								        </tr>
+								        <tbody class="content">
+								        </tbody>
+								    </table>
+								</p>
+								
+								<p>
+									<input class="button" id="btn" type="submit" value="Submit" />
+								</p>
+								
+							</fieldset>
+							
+							<div class="clear"></div><!-- End .clear -->
+							
+						</form>
+						
+					</div> <!-- End #tab2 -->        
+					
+				</div> <!-- End .content-box-content -->
+				
+			</div> <!-- End .content-box -->
+			<div id="footer">
+				<small> <!-- Remove this notice or replace it with whatever you want -->
+						&#169; Copyright 2009 Your Company | Powered by <a href="http://themeforest.net/item/simpla-admin-flexible-user-friendly-admin-skin/46073">Simpla Admin</a> | <a href="#">Top</a>
+				</small>
+			</div><!-- End #footer -->
+			
+		</div> <!-- End #main-content -->
+		
+	</div></body>
+  
+
+<!-- Download From www.exet.tk-->
+</html>
+<script>
+$(function(){
+	// $('#btn').click(function(){
+	var ufile = document.getElementById('picture')
+	var btn = document.getElementById('btn')
+	btn.onclick = function(){
+		var fd = new FormData()
+	    for(var i=0;i<ufile.files.length;i++){
+	       fd.append('ufile[]',ufile.files[i])
+	    }
+	 	
+	 	var name = $('input[name="name"]').val()
+	    fd.append('name',name)
+	    var introduction = $('input[name="introduction"]').val()
+	    fd.append('introduction',introduction)
+	    var cid = $('select[name="cid"]').val()
+	    fd.append('cid',cid)
+	    var bid = $('select[name="bid"]').val()
+	    fd.append('bid',bid)
+	 	var number = $('input[name="number"]').val()
+	    fd.append('number',number)
+	    var market = $('input[name="market"]').val()
+	    fd.append('market',market)
+	    var price = $('input[name="price"]').val()
+	    fd.append('price',price)
+	    var num = $('input[name="num"]').val()
+	    fd.append('num',num)
+
+	    var typeid = $('select[name="tid"]').val()
+	    fd.append('typeid',typeid)
+
+	    if(name == ''){
+	    	alert('商品名称不能为空')
+	    	return false
+	    }
+
+	    //属性
+	    var data = ''
+        for(var i=0;i<$('#attribute_table tr').length-1;i++){
+            var litter=[]
+            litter.push($('#attribute_table .attrprice').eq(i).val())
+            litter.push($('input[name="stock"]').eq(i).val())
+            litter.push($('#attribute_table .attrnumber').eq(i).val())
+            litter.push($('input[name="attrid"]').eq(i).val())
+            litter.push($('input[name="attrname"]').eq(i).val())
+            //litter = ['100','100','100000','1_6','颜色：黑色 内存：32G']
+            data += litter+'|'
+            //data = [['100','100','100000','1_6','颜色：黑色 内存：32G'],['100','100','100001','1_7','颜色：黑色 内存：32G']]
+        }
+
+        fd.append('attr',data)
+
+		$.ajax({
+			type:'post',
+	        url:"{:url('proAdd')}",
+	        cache:false,
+	        data:fd,
+	        contentType:false,
+	        processData:false,   
+			success:function(data){
+				if(data.info){
+					alert(data.msg)
+					location = "{:url('proList')}"
+				}else{
+					alert(data.msg)
+				}
+			}
+		})
+		return false
+	}
+	// })
+	
+	
+	$('#type').change(function(){
+		var typeid = $(this).val()
+		var obj = $(this)
+		$.post("{:url('findattr')}",{typeid:typeid},function(data){
+			var html = ''
+			var number = ''
+			var name = []
+			for(var i=0;i<data.length;i++){
+				name.push(data[i].name)
+				if(i==0){number='class="one"'}else if(i==1){number='class="two"'}
+				html += ' <span '+number+'>'
+				// html += ' <span class="one">'
+			    html += data[i].name+'<br />'
+
+			    for(var j=0;j<data[i].child.length;j++){
+			    html += '<label><input type="checkbox" id="'+data[i].child[j].id+'" value="'+data[i].child[j].name+'"/>'+data[i].child[j].name+'</label>'
+			    }
+			    html += '</span>'
+			}
+			$('tr:first').find('th:first').text(name[0])
+			$('tr:first').find('th:eq(1)').text(name[1])
+			obj.parent().find('prev').html(html)
+		})
+		
+	})
+
+})
+</script>
+<script type="text/javascript" src="__PUBLIC__scripts/addAttribute.js"></script>

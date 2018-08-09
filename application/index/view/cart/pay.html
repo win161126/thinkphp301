@@ -1,0 +1,56 @@
+{include file="public/header"}
+<!--main start-->
+<div class="gw_one">
+	<ul>
+    	<li>
+        	<em>1</em>
+            <span><i>购物车</i><br />Shopping Cart</span>
+        </li>
+        <li class="sel">
+        	<em>2</em>
+            <span><i>填写核对订单</i><br />Delivery & Payment</span>
+        </li>
+        <li class="li">
+        	<em>3</em>
+            <span><i>订单支付成功</i><br />Complete Order</span>
+        </li>
+    </ul>
+</div>
+<div class="main">
+    <input type="hidden" id="orderid" value="{$orderid}" />
+    <input type="hidden" id="total" value="{$total}" />
+    订单编号：{$orderid}<br /><br /><br />总价：￥<b style="color:red;margin-right:100px;">{$total}</b>
+	支付密码：<input type="password" class="txt" id="pwd" name="cash" value="" style="width:280px; padding-left:10px; height:38px; background:#ffffff; border:1px solid #000; line-height:38px; color:#9F9F9F; font-size:12px; margin-top:10px; margin-bottom:15px; "/>
+    <input type="button" class="gw_btn" value="确定" />
+    
+</div>
+
+<!--main end-->
+
+{include file="public/footer"}
+
+<script>
+$(function(){
+    $('.gw_btn').click(function(){
+        var orderid = $('#orderid').val()
+        var pwd = $('#pwd').val()
+        var total = $('#total').val()
+        if(pwd=='' || pwd== null || pwd== 'undefined'){
+            alert('请输入支付密码')
+            return false
+        }
+
+        $.post("{:url('payment')}",{orderid:orderid,pwd:pwd,total:total},function(data){
+            if(data.info){
+                location = "{:url('chenggong')}"
+            }else{
+                if(data.code == 400){
+                    alert(data.msg)
+                    return false
+                }
+                location = "{:url('shibai')}"
+            }
+        })
+    })
+})
+</script>

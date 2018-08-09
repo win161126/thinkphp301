@@ -1,0 +1,105 @@
+{include file="public/header"}
+<!--main start-->
+<div class="gw_one">
+	<ul>
+    	<li>
+        	<em>1</em>
+            <span><i>购物车</i><br />Shopping Cart</span>
+        </li>
+        <li class="sel">
+        	<em>2</em>
+            <span><i>填写核对订单</i><br />Delivery & Payment</span>
+        </li>
+        <li class="li">
+        	<em>3</em>
+            <span><i>订单支付成功</i><br />Complete Order</span>
+        </li>
+    </ul>
+</div>
+<div class="main">
+	<div class="gw_two">送货地址</div>
+    <ul class="gw_six">
+        {volist name="addrlist" id="v"}
+    	<li>
+        	<label>
+        	<div class="top">
+            	<span>{$v.linkman}</span>
+                <input type="checkbox" class="ck" value="{$v.id}"/>
+            </div>
+            <div class="bottom">
+            	<p>{$v.province}   {$v.city}</p>
+                <p>{$v.country}</p>
+                <p>{$v.address}</p>
+                <p>手机: {$v.mobile}</p>
+            </div>
+            </label>
+        </li>
+        {/volist}
+    </ul>
+    <input type="button" class="gw_btn" value="+添加新地址" />
+    <div class="gw_two">商品信息</div>
+  	<table class="gw_three" cellpadding="0" cellspacing="0">
+    	<tr>
+        	<th width="147" height="53">序号</th>
+            <th width="542">商品名称</th>
+            <th width="116">数量</th>
+            <th width="223">小计</th>
+        </tr>
+        {volist name="list" id="v"}
+        <tr>
+        	<td class="cz">{$v.id}</td>
+            <td>
+                <a href="{:url('Product/detail',['id'=>$v.pid])}" class="img"><img src="{$v.thumb}" /></a>
+                <div class="left">
+                    <a href="{:url('Product/detail',['id'=>$v.pid])}">{$v.name}</a><br />
+                    <!-- 颜色 : 浅棕色 -->
+                </div>
+            </td>
+            <td class="cz">{$v.num}</td>
+            <td class="price">¥ {$v.total}</td>
+        </tr>
+        {/volist}
+    </table>
+    <div class="gw_two">付款方式</div>
+    <div class="gw_seven">
+    	<label><input type="radio" name="rad" class="state" checked="checked" value="1"/> <img src="__PUBLIC__images/img_14.jpg" /></label>
+        <label><input type="radio" name="rad" class="state" value="2" /> 余额</label>
+    </div>
+</div>
+<div class="gw_four">
+	<div class="main">
+    	<div class="left">
+            <br /><br /><br />
+            <input type="button" class="btn" value="上一步" />
+        </div>
+        <div class="right">
+        	<p>商品数量总计 : {$num}件</p>
+            <p>商品金额总计（不含运费）:<span>¥ {$total}</span></p>
+            <input type="button" class="btn btn_order" value="下一步" />
+        </div>
+    </div>
+</div>
+<!--main end-->
+
+{include file="public/footer"}
+
+<script>
+$(function(){
+    $('.btn_order').click(function(){
+        var addressid = $('.ck:checked').val()
+        var state = $('.state:checked').val()
+        if(addressid=='' || addressid== null || addressid== 'undefined'){
+            alert('请选择一个收货地址')
+            return false
+        }
+
+        $.post("{:url('orders')}",{addressid:addressid,state:state},function(data){
+            if(data.info){
+                location = '/pay/'+data.orderid
+            }else{
+                alert(data.msg)
+            }
+        })
+    })
+})
+</script>

@@ -1,0 +1,155 @@
+{include file="public/header"}
+
+<!--main start-->
+<div class="main">
+	<div class="wei"><a href="#">首页</a>/<a href="#">产品分类</a>/<a href="#">彩妆</a>/<span>雅思兰黛</span></div>
+    <div class="cp_five">
+    	<table class="top"><tr><td><img src="{$product.picture[0]|substr=###,1}" /></td></tr></table>
+        <ul>
+        {volist name="product.picture" id="pic"}
+        	<li class="sel"><img src="{$pic|substr=###,1}" /></li>
+        {/volist}
+            
+        </ul>
+        <script type="text/javascript">
+        	$(function(){
+				$(".cp_five ul li").click(function(){
+					$(".cp_five ul li").removeClass("sel");
+					$(this).addClass("sel");
+					$(".cp_five .top img").attr("src",$(this).find("img").attr("src"));
+					return false;
+				})
+			})
+        </script>
+    </div>
+    <div class="cp_six">
+    <input type="hidden" id="pid" value="{$product.id}">
+    	<h1>{$product.name}</h1>
+        <h5>{$product.number}</h5>
+        <h3>{$product.introduction}</h3>
+        <div class="price">
+        	<span>¥ {$product.price}</span>专柜价 ：¥ {$product.market}
+        </div>
+        <div class="xiala">
+        	<select>
+            	<option>10 Pearly Cold Pink</option>
+            </select>
+            <select>
+            	<option>3.5g</option>
+            </select>
+        </div>
+        <ul>
+        	<li><span>购买数量</span>
+            	<input type="button" class="btn num_jian" value="-" />
+                <input type="text" class="txt" id="num" value="1" />
+                <input type="button" class="btn num_jia" value="+" />
+            </li>
+            <li><span>所有色号</span>
+            	<p class="yanse">
+                	<i style="background:#D47F92" class="sel"></i>
+                    <i style="background:#F1A78A"></i>
+                    <i style="background:#B16569"></i>
+                    <i style="background:#EB553C"></i>
+                    <i style="background:#F574AA"></i>
+                    <i style="background:#A81D34"></i>
+                    <i style="background:#865C9C"></i>
+                </p>
+                <script type="text/javascript">
+                	$(".yanse i").click(function(){
+						$(".yanse i").removeClass("sel");
+						$(this).addClass("sel");
+					})
+                </script>
+            </li>
+        </ul>
+        <div class="desc">
+        	发送门店 &nbsp; &nbsp; &nbsp; 此货品将由法国商城为您发货，预计1-3个工作日送达<br />
+            温馨提示 &nbsp; &nbsp; &nbsp; 本商品支持7天无理由退换货品 支持货到付款
+        </div>
+        <input type="button" class="btn_gwc" value="添加购物车" />
+        <input type="button" class="btn_gm" value="立即购买" />
+    </div>
+    <div class="cp_br"></div>
+    <div class="cp_seven">
+    	<div class="top">同品牌推荐</div>
+        <ul>
+        	<li>
+            	<a class="img" href="#"><img src="__PUBLIC__images/006.jpg" /></a>
+                <div class="right">
+                	<a href="#">法国商城纯色恒彩唇膏</a><br />
+                    ¥ 520.00
+                </div>
+            </li>
+            <li>
+            	<a class="img" href="#"><img src="__PUBLIC__images/006.jpg" /></a>
+                <div class="right">
+                	<a href="#">法国商城纯色恒彩唇膏</a><br />
+                    ¥ 520.00
+                </div>
+            </li>
+            <li>
+            	<a class="img" href="#"><img src="__PUBLIC__images/006.jpg" /></a>
+                <div class="right">
+                	<a href="#">法国商城纯色恒彩唇膏</a><br />
+                    ¥ 520.00
+                </div>
+            </li>
+            <li>
+            	<a class="img" href="#"><img src="__PUBLIC__images/006.jpg" /></a>
+                <div class="right">
+                	<a href="#">法国商城纯色恒彩唇膏</a><br />
+                    ¥ 520.00
+                </div>
+            </li>
+            <li>
+            	<a class="img" href="#"><img src="__PUBLIC__images/006.jpg" /></a>
+                <div class="right">
+                	<a href="#">法国商城纯色恒彩唇膏</a><br />
+                    ¥ 520.00
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="cp_eight">
+    	{$product.content}
+    </div>
+</div>
+<!--main end-->
+{include file="public/footer"}
+<script>
+$(function(){
+    //数量加
+    $(".num_jia").click(function(){
+        var i=parseInt($(this).prev().val());
+        i=i+1;
+        $(this).prev().val(i);
+    })
+    //数量减
+    $(".num_jian").click(function(){
+        var i=parseInt($(this).next().val());
+        if(i>1)
+        {
+            i=i-1;
+            $(this).next().val(i);
+        }
+    })
+
+    $(".num").blur(function(){
+        var i=parseInt($(this).val());
+        $(this).val(i);
+    })
+
+
+    $('.btn_gwc').click(function(){
+        var pid = $('#pid').val()
+        var num = $('#num').val()
+        $.post("{:url('Cart/addCart')}",{pid:pid,num:num},function(data){
+            if(data.code == 400){
+                alert(data.msg)
+                location = "{:url('Member/login')}"
+            }
+            alert(data.msg)
+        })
+    })
+})
+</script>

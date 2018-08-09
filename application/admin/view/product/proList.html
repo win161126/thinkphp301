@@ -1,0 +1,113 @@
+
+		<div id="main-content"> <!-- Main Content Section with everything -->
+			
+			
+			
+			
+			
+			<div class="content-box"><!-- Start Content Box -->
+				
+				<div class="content-box-header">
+					
+					<h3>Content box</h3>
+					
+					
+					
+					<div class="clear"></div>
+					
+				</div> <!-- End .content-box-header -->
+				
+				<div class="content-box-content">
+					
+					<div class="tab-content default-tab" id="tab1"> <!-- This is the target div. id must match the href of this div's tab -->
+						
+						<form action="{:url('proDelete')}" method="post" name="mypro">
+						<table>
+							
+							<thead>
+								<tr>
+								   <th><input class="check-all" type="checkbox" />序号</th>
+								   <th>商品名称</th>
+								   <th>简介</th>
+								   <th>分类</th>
+								   <th>品牌</th>
+								   <th>市场价</th>
+								   <th>销售价</th>
+								   <th>库存</th>
+								   <th>货号</th>
+								   <th>添加时间</th>
+								   <th>操作</th>
+								</tr>
+								
+							</thead>
+						 
+							<tfoot>
+								<tr>
+									<td colspan="6">
+										<div class="bulk-actions align-left">
+											<select name="dropdown">
+												<option value="0">选择操作...</option>
+												<option value="del">删除</option>
+											</select>
+											<input type="submit" class="button" value="操作">
+										</div>
+										
+										
+											{$list->render()}
+											
+										<div class="clear"></div>
+									</td>
+								</tr>
+							</tfoot>
+						 
+							<tbody>
+							{volist name="list" id="v"}
+								<tr>
+									<td><input type="checkbox" name="id[]" value="{$v.id}"/>{$v.id}</td>
+									<td>{$v.name}</td>
+									<td>{$v.introduction}</td>
+									<td>{$v.cname}</td>
+									<td>{$v.bname}</td>
+									<td>{$v.market}</td>
+								    <td>{$v.price}</td>
+								    <td>{$v.num}</td>
+								    <td>{$v.number}</td>
+								    <td>{$v.ctime|date='Y-m-d H:i:s',###}</td>
+									<td>
+										<!-- Icons -->
+										 <a href="{:url('Product/proUpdate',['id'=>$v.id])}" title="Edit"><img src="__PUBLIC__images/icons/pencil.png" alt="Edit" /></a>
+										 <a href="{:url('Product/proDelete',['id'=>$v['id']])}" title="Delete"><img src="__PUBLIC__images/icons/cross.png" alt="Delete" /></a> 
+										 
+									</td>
+								</tr>
+							{/volist}	
+							</tbody>
+							
+						</table>
+						</form>
+					</div> <!-- End #tab1 -->
+					    
+					
+				</div> <!-- End .content-box-content -->
+				
+			</div> <!-- End .content-box -->
+			
+			
+			
+			
+			
+			
+			
+			<div id="footer">
+				<small> <!-- Remove this notice or replace it with whatever you want -->
+						&#169; Copyright 2009 Your Company | Powered by <a href="http://themeforest.net/item/simpla-admin-flexible-user-friendly-admin-skin/46073">Simpla Admin</a> | <a href="#">Top</a>
+				</small>
+			</div><!-- End #footer -->
+			
+		</div> <!-- End #main-content -->
+		
+	</div></body>
+  
+
+<!-- Download From www.exet.tk-->
+</html>

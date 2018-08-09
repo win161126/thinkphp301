@@ -1,0 +1,30 @@
+{include file="public/header"}
+
+<!--main start-->
+<div class="cp_one"><a href="#"></a></div>
+<div class="main">
+	<div class="wei"><a href="#">首页</a>/<span>搜索</span></div>
+    
+    
+    <ul class="cp_four">
+        {volist name="plist" id="pv"}
+    	<li>
+        	<div class="img">
+            	<span class="da"></span>
+            	<a href="{:url('detail',['id'=>$pv.id])}"><img src="{$pv.thumb|substr=###,1}" height="308" width="247" /></a>
+            </div>
+        	<h1><a href="{:url('detail',['id'=>$pv.id])}">{$pv.name}</a></h1>
+            <p>¥{$pv.price}</p>
+        </li>
+        {/volist}
+    </ul>
+    <div class="page">
+    	{$plist->render()}
+        页面
+        <select>
+        	<option>第1页</option>
+        </select>
+    </div>
+</div>
+<!--main end-->
+{include file="public/footer"}

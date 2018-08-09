@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{$title}</title>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__css/css.css"/>
+<script type="text/javascript" src="__PUBLIC__js/jQuery.js"></script>
+</head>
+
+<body>
+<!--header start-->
+<div class="header">
+    <div class="header_top">
+        <div class="main">
+            {if condition="session('?uname')"}
+            <div class="left">欢迎光临法国官网！ &nbsp; <a href="{:url('Member/index')}">{$Think.session.uname}</a>|<a href="{:url('Member/logout')}">退出</a></div>
+            <div class="right">
+                <a href="{:url('Cart/cartList')}" class="agwc">购物车</a>|<a href="{:url('Member/index')}" class="azh">我的账户</a>
+            </div>
+            {else /}
+            <div class="left">欢迎光临法国官网！ &nbsp; <a href="{:url('Member/register')}">注册</a>|<a href="{:url('Member/login')}">登录</a></div>   
+                
+            {/if}
+        </div>
+    </div>
+    <div class="main">
+        <div class="logo"><a href="{:url('index/index')}"><img src="__PUBLIC__images/logo.jpg" /></a></div>
+        <div class="search">
+            <form action="{:url('Product/search')}" method="get">
+            <div class="left">
+                <a href="{:url('Product/search',['keyword'=>'面膜'])}">面膜</a>|<a href="{:url('Product/search',['keyword'=>'日日'])}">日日</a>|<a href="{:url('Product/search',['keyword'=>'芦荟'])}">芦荟</a>
+            </div>
+            <input type="text" name="keyword" class="txt" placeholder="搜索你需要的商品" />
+            <input type="submit" class="btn" value="" />
+            </form>
+        </div>
+    </div>
+    <div class="nav">
+        <a href="{:url('index/index')}" class="all">全部分类</a>
+        {volist name="clist" id="cv"}
+        <a href="{:url('Product/proList',['id'=>$cv.id])}">{$cv.name}</a>
+        {/volist}
+    </div>
+</div>
+<!--header end-->

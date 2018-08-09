@@ -1,0 +1,160 @@
+
+		<div id="main-content"> <!-- Main Content Section with everything -->
+			
+			
+			
+			
+			
+			<div class="content-box"><!-- Start Content Box -->
+				
+				<div class="content-box-header">
+					
+					<h3>Content box</h3>
+					
+					
+					<div class="clear"></div>
+					
+				</div> <!-- End .content-box-header -->
+				
+				<div class="content-box-content">
+					
+					
+					
+					<div class="tab-content default-tab" id="tab2">
+					
+						<form action="" method="post">
+							
+							<fieldset> <!-- Set class to "column-left" or "column-right" on fieldsets to divide the form into columns -->
+								<input type="hidden" name="id" value="{$one.id}" /> 
+								<p>
+									<label>商品名称</label>
+										<input class="text-input small-input" type="text" id="small-input" name="name" value="{$one.name}" /> 
+								</p>
+								<p>
+									<label>商品简介</label>
+										<input class="text-input small-input" type="text" id="small-input" name="introduction" value="{$one.introduction}" /> 
+								</p>
+								<p>
+									<label>分类</label>
+									<select name="cid" class="small-input">
+										<option value="0">--请选择分类--</option>
+										{volist name="cateList" id="cv"}
+										<option value="{$cv.id}" {if condition="$one['cid'] == $cv['id']"}selected="selected"{/if}>{$cv.name}</option>
+										{/volist}
+									</select> 
+								</p>
+								<p>
+									<label>品牌</label>
+									<select name="bid" class="small-input">
+										<option value="0">--请选择品牌--</option>
+										{volist name="brandList" id="bv"}
+										<option value="{$bv.id}" {if condition="$one['bid'] == $bv['id']"}selected="selected"{/if}>{$bv.name}</option>
+										{/volist}
+									</select> 
+								</p>
+								
+								<p>
+									<label>商品货号</label>
+										<input class="text-input small-input" type="text" id="small-input" name="number" value="{$one.number}" /> 
+								</p>
+								<p>
+									<label>市场价</label>
+										<input class="text-input small-input" type="text" id="small-input" name="market" value="{$one.market}" /> 
+								</p>
+								<p>
+									<label>销售价</label>
+										<input class="text-input small-input" type="text" id="small-input" name="price" value="{$one.price}" /> 
+								</p>
+								<p>
+									<label>库存</label>
+										<input class="text-input small-input" type="text" id="small-input" name="num" value="{$one.num}" /> 
+								</p>
+								<p>
+									<label>图片主图</label>
+										
+										<input class="text-input small-input" type="file" id="picture" multiple name="picture[]" value=""/> 
+								</p>
+								
+								<p>
+									<input class="button" id="btn" type="submit" value="Submit" />
+								</p>
+								
+							</fieldset>
+							
+							<div class="clear"></div><!-- End .clear -->
+							
+						</form>
+						
+					</div> <!-- End #tab2 -->        
+					
+				</div> <!-- End .content-box-content -->
+				
+			</div> <!-- End .content-box -->
+			<div id="footer">
+				<small> <!-- Remove this notice or replace it with whatever you want -->
+						&#169; Copyright 2009 Your Company | Powered by <a href="http://themeforest.net/item/simpla-admin-flexible-user-friendly-admin-skin/46073">Simpla Admin</a> | <a href="#">Top</a>
+				</small>
+			</div><!-- End #footer -->
+			
+		</div> <!-- End #main-content -->
+		
+	</div></body>
+  
+
+<!-- Download From www.exet.tk-->
+</html>
+<script>
+$(function(){
+	// $('#btn').click(function(){
+	var ufile = document.getElementById('picture')
+	var btn = document.getElementById('btn')
+	btn.onclick = function(){
+		var fd = new FormData()
+	    for(var i=0;i<ufile.files.length;i++){
+	       fd.append('ufile[]',ufile.files[i])
+	    }
+	 	var id = $('input[name="id"]').val()
+	    fd.append('id',id)
+	 	var name = $('input[name="name"]').val()
+	    fd.append('name',name)
+	    var introduction = $('input[name="introduction"]').val()
+	    fd.append('introduction',introduction)
+	    var cid = $('select[name="cid"]').val()
+	    fd.append('cid',cid)
+	    var bid = $('select[name="bid"]').val()
+	    fd.append('bid',bid)
+	 	var number = $('input[name="number"]').val()
+	    fd.append('number',number)
+	    var market = $('input[name="market"]').val()
+	    fd.append('market',market)
+	    var price = $('input[name="price"]').val()
+	    fd.append('price',price)
+	    var num = $('input[name="num"]').val()
+	    fd.append('num',num)
+
+	    if(name == ''){
+	    	alert('商品名称不能为空')
+	    	return false
+	    }
+
+		$.ajax({
+			type:'post',
+	        url:"{:url('proUpdate')}",
+	        cache:false,
+	        data:fd,
+	        contentType:false,
+	        processData:false,   
+			success:function(data){
+				if(data.info){
+					alert(data.msg)
+					location = "{:url('proList')}"
+				}else{
+					alert(data.msg)
+				}
+			}
+		})
+		return false
+	}
+	// })
+})
+</script>

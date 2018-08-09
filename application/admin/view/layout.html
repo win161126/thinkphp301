@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+		
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		
+		<title>{$title}</title>
+		
+		<!--                       CSS                       -->
+	  
+		<!-- Reset Stylesheet -->
+		<link rel="stylesheet" href="__PUBLIC__css/reset.css" type="text/css" media="screen" />
+	  
+		<!-- Main Stylesheet -->
+		<link rel="stylesheet" href="__PUBLIC__css/style.css" type="text/css" media="screen" />
+		
+		<!-- Invalid Stylesheet. This makes stuff look pretty. Remove it if you want the CSS completely valid -->
+		<link rel="stylesheet" href="__PUBLIC__css/invalid.css" type="text/css" media="screen" />	
+		
+		<!-- Colour Schemes
+	  
+		Default colour scheme is green. Uncomment prefered stylesheet to use it.
+		
+		<link rel="stylesheet" href="__PUBLIC__css/blue.css" type="text/css" media="screen" />
+		
+		<link rel="stylesheet" href="__PUBLIC__css/red.css" type="text/css" media="screen" />  
+	 
+		-->
+		
+		<!-- Internet Explorer Fixes Stylesheet -->
+		
+		<!--[if lte IE 7]>
+			<link rel="stylesheet" href="__PUBLIC__css/ie.css" type="text/css" media="screen" />
+		<![endif]-->
+		
+		<!--                       Javascripts                       -->
+  
+		<!-- jQuery -->
+		<script type="text/javascript" src="__PUBLIC__scripts/jquery-1.11.1.min.js"></script>
+		
+		<!-- jQuery Configuration -->
+		<script type="text/javascript" src="__PUBLIC__scripts/simpla.jquery.configuration.js"></script>
+		
+		<!-- Facebox jQuery Plugin -->
+		<script type="text/javascript" src="__PUBLIC__scripts/facebox.js"></script>
+		
+		<!-- jQuery WYSIWYG Plugin -->
+		<script type="text/javascript" src="__PUBLIC__scripts/jquery.wysiwyg.js"></script>
+		
+		<!-- jQuery Datepicker Plugin -->
+		<script type="text/javascript" src="__PUBLIC__scripts/jquery.datePicker.js"></script>
+		<script type="text/javascript" src="__PUBLIC__scripts/jquery.date.js"></script>
+		<!--[if IE]><script type="text/javascript" src="__PUBLIC__scripts/jquery.bgiframe.js"></script><![endif]-->
+
+		
+		<!-- Internet Explorer .png-fix -->
+		
+		<!--[if IE 6]>
+			<script type="text/javascript" src="__PUBLIC__scripts/DD_belatedPNG_0.0.7a.js"></script>
+			<script type="text/javascript">
+				DD_belatedPNG.fix('.png_bg, img, li');
+			</script>
+		<![endif]-->
+		<link rel="stylesheet" href="__PUBLIC__kindeditor/themes/default/default.css" />
+		<link rel="stylesheet" href="__PUBLIC__kindeditor/plugins/code/prettify.css" />
+		<script charset="utf-8" src="__PUBLIC__kindeditor/kindeditor-all-min.js"></script>
+		<script charset="utf-8" src="__PUBLIC__kindeditor/lang/zh-CN.js"></script>
+		<script charset="utf-8" src="__PUBLIC__kindeditor/plugins/code/prettify.js"></script>
+		<script>
+			KindEditor.ready(function(K) {
+				var editor1 = K.create('textarea[name="content"]', {
+					cssPath : '__PUBLIC__kindeditor/plugins/code/prettify.css',
+					uploadJson : '__PUBLIC__kindeditor/php/upload_json.php',
+					fileManagerJson : '__PUBLIC__kindeditor/php/file_manager_json.php',
+					allowFileManager : true,
+					afterCreate : function() {
+						var self = this;
+						K.ctrl(document, 13, function() {
+							self.sync();
+							K('form[name=example]')[0].submit();
+						});
+						K.ctrl(self.edit.doc, 13, function() {
+							self.sync();
+							K('form[name=example]')[0].submit();
+						});
+					}
+				});
+				prettyPrint();
+			});
+		</script>
+	</head>
+  
+	<body><div id="body-wrapper"> <!-- Wrapper for the radial gradient background -->
+		
+		<div id="sidebar"><div id="sidebar-wrapper"> <!-- Sidebar with logo and menu -->
+			
+			<h1 id="sidebar-title"><a href="#">Simpla Admin</a></h1>
+		  
+			<!-- Logo (221px wide) -->
+			<a href="#"><img id="logo" src="__PUBLIC__images/logo.png" alt="Simpla Admin logo" /></a>
+		  
+			<!-- Sidebar Profile links -->
+			<div id="profile-links">
+				你好, {$Think.session.user}, <br />
+				<br />
+				<a href="{:url('Admin/logout')}" title="Sign Out">退出</a>
+			</div>        
+			
+			<ul id="main-nav">  <!-- Accordion Menu -->
+				
+				<!-- <li>
+					<a href="http://www.google.com/" class="nav-top-item no-submenu"> Add the class "no-submenu" to menu items with no sub menu
+						Dashboard
+					</a>       
+				</li> -->
+				
+				{volist name="menu" id="nav"}
+				{if condition="$nav['fid'] == 0"}
+				{if condition="in_array($nav['id'],$adminlevel)"}
+				<li>
+					<a href="#" class="nav-top-item {if condition='$controller == strtolower($nav.controller)'}current{/if}">
+						{$nav.name}
+					</a>
+					<ul>
+						{volist name="menu" id="v"}
+						{if condition="$v['fid'] == $nav['id'] && $v['state']==1"}
+						{if condition="in_array($v['id'],$adminlevel)"}
+						<li ><a href="{:url($v['controller'].'/'.$v['action'])}" {if condition='$controller == strtolower($v.controller) && $action==strtolower($v.action)'}class="current"{/if}>{$v.name}</a></li>
+						{/if}
+						{/if}
+						{/volist}
+					</ul>
+				</li>
+				{/if}
+				{/if}
+				{/volist}
+				   
+				
+			</ul> <!-- End #main-nav -->
+				
+			
+			
+			
+		</div></div> <!-- End #sidebar -->
+		
+		{__CONTENT__}
+		
+	</div></body>
+  
+
+<!-- Download From www.exet.tk-->
+</html>
